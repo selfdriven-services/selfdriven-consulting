@@ -166,7 +166,7 @@ section { padding: 100px 60px; }
 
 /* ─── AREAS OF FOCUS ─── */
 .areas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 48px; }
-.area-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 28px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; opacity: 0; transform: translateY(24px); }
+.area-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 28px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; opacity: 1; transform: none; }
 .area-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s, border-color 0.2s; }
 .area-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
 .area-card:hover::before { transform: scaleX(1); }
@@ -1423,7 +1423,7 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0 });
 document.querySelectorAll('.area-card, 
   });
 }, { threshold: 0.3 });
