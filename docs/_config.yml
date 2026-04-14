@@ -9,9 +9,9 @@ baseurl: ""
 
 # Author / org
 author:
-  name: "selfdriven Services"
-  email: "hello@selfdriven.services"
-  url: "https://selfdriven.services"
+  name: "selfdriven Foundation"
+  email: "hello@selfdriven.foundation"
+  url: "https://selfdriven.foundation"
 
 # Build
 markdown: kramdown
@@ -66,7 +66,9 @@ twitter:
 social:
   name: selfdriven Foundation
   links:
-    - https://selfdriven.services
+    - https://selfdriven.foundation
+    - https://selfdriven.money
+    - https://selfdriven.health
 
 # Sitemap exclusions
 sitemap:
