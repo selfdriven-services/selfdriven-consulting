@@ -26,9 +26,9 @@ html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,box-shadow .3s}
-nav.scrolled{background:rgba(245,242,237,0.88);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--border)}
-@media(prefers-color-scheme:dark){nav.scrolled{background:rgba(10,10,10,0.88)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:68px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.08);border-bottom-color:transparent}
+@media(prefers-color-scheme:dark){}
 .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-logo-img{height:30px;width:auto;display:block}
 .nav-logo svg{width:18px;height:18px;stroke:white;fill:white;stroke-linecap:round;stroke-linejoin:round}
