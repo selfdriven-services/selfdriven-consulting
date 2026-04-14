@@ -385,11 +385,7 @@ footer{background:var(--text);padding:52px 60px;display:grid;grid-template-colum
     <a href="/#how">How it Works</a>
   </div>
   <div class="footer-col"><h4>Ecosystem</h4>
-    <a href="#">selfdriven.foundation</a>
-    <a href="#">selfdriven.money</a>
-    <a href="#">selfdriven.health</a>
-    <a href="#">selfdriven.ai</a>
-    <a href="#">archy.insure</a>
+    <a href="https://selfdriven.services">selfdriven.services</a><a href="https://selfdriven.ai">selfdriven.ai</a>
   </div>
 </footer>
 <div class="footer-bottom">
@@ -398,7 +394,7 @@ footer{background:var(--text);padding:52px 60px;display:grid;grid-template-colum
 </div>
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20));
-const obs=new IntersectionObserver((e)=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*90);obs.unobserve(e.target)}})},{threshold:.1});
+const obs=new IntersectionObserver((e)=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*90);obs.unobserve(e.target)}})},{threshold:0});
 document.querySelectorAll('.svc-card,.step').forEach(el=>obs.observe(el));
 </script>
 </body></html>

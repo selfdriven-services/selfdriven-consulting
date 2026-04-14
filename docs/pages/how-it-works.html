@@ -88,7 +88,7 @@ nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.08);border-bottom-color:transpare
 
 /* ── AREAS GRID ── */
 .areas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:0}
-.area-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--card-radius);padding:28px;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s,box-shadow .2s,border-color .2s}
+.area-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--card-radius);padding:28px;position:relative;overflow:hidden;opacity:1;transform:none;transition:opacity .5s,transform .5s,box-shadow .2s,border-color .2s}
 .area-card.visible{opacity:1;transform:translateY(0)}
 .area-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .area-card:hover::before{transform:scaleX(1)}
@@ -153,7 +153,7 @@ nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.08);border-bottom-color:transpare
 
 /* ── KERI CONCEPTS ── */
 .concepts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.concept-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.concept-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;opacity:1;transform:none;transition:opacity .5s,transform .5s}
 .concept-card.visible{opacity:1;transform:translateY(0)}
 .concept-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin-bottom:10px;display:inline-block;background:var(--accent-dim);padding:3px 8px;border-radius:6px}
 .concept-name{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
@@ -175,7 +175,7 @@ nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.08);border-bottom-color:transpare
 /* ── HOW IT WORKS STEPS ── */
 .steps-timeline{display:flex;flex-direction:column;gap:0;position:relative;margin-top:0}
 .timeline-line{position:absolute;left:22px;top:44px;bottom:44px;width:2px;background:var(--border);z-index:0}
-.timeline-step{display:grid;grid-template-columns:44px 1fr;gap:24px;align-items:start;padding:0 0 36px;position:relative;opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .5s}
+.timeline-step{display:grid;grid-template-columns:44px 1fr;gap:24px;align-items:start;padding:0 0 36px;position:relative;opacity:1;transform:none;transition:opacity .5s,transform .5s}
 .timeline-step.visible{opacity:1;transform:translateX(0)}
 .timeline-step:last-child{padding-bottom:0}
 .ts-dot{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;box-shadow:0 0 0 4px var(--bg)}
@@ -190,7 +190,7 @@ nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.08);border-bottom-color:transpare
 
 /* ── HOW STEPS HORIZONTAL ── */
 .steps-h{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;border:1px solid var(--border);border-radius:var(--card-radius);overflow:hidden;margin-top:0}
-.step-h{padding:28px 24px;border-right:1px solid var(--border);position:relative;opacity:0;transform:translateX(14px);transition:opacity .5s,transform .5s}
+.step-h{padding:28px 24px;border-right:1px solid var(--border);position:relative;opacity:1;transform:none;transition:opacity .5s,transform .5s}
 .step-h:last-child{border-right:none}
 .step-h.visible{opacity:1;transform:translateX(0)}
 .step-h-n{font-family:'JetBrains Mono',monospace;font-size:38px;font-weight:700;color:var(--accent-strong);margin-bottom:12px;line-height:1}
@@ -525,8 +525,7 @@ footer{background:var(--text);padding:52px 60px;display:grid;grid-template-colum
         <a href="/framework/how-it-works/"class="al">How it Works</a>
         </div>
   <div class="footer-col"><h4>Ecosystem</h4>
-    <a href="#">selfdriven.foundation</a><a href="#">selfdriven.money</a>
-    <a href="#">selfdriven.health</a><a href="#">selfdriven.ai</a>
+    <a href="https://selfdriven.services">selfdriven.services</a><a href="https://selfdriven.ai">selfdriven.ai</a>
   </div>
 </footer>
 <div class="footer-bot">
@@ -535,9 +534,9 @@ footer{background:var(--text);padding:52px 60px;display:grid;grid-template-colum
 </div>
 <script>
 window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>20));
-const io=new IntersectionObserver((e)=>{e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),i*80);io.unobserve(el.target)}})},{threshold:.1});
+const io=new IntersectionObserver((e)=>{e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),i*80);io.unobserve(el.target)}})},{threshold:0});
 document.querySelectorAll('.area-card,.concept-card,.timeline-step,.step-h').forEach(el=>io.observe(el));
-const barObs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w);barObs.unobserve(el.target)}})},{threshold:.3});
+const barObs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w);barObs.unobserve(el.target)}})},{threshold:0});
 document.querySelectorAll('.conductor-bars').forEach(el=>barObs.observe(el));
 </script>
 </body></html>
