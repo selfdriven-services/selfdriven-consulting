@@ -84,7 +84,8 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .area-card:hover .area-icon-wrap { background: var(--accent-strong); }
 .area-icon-wrap svg { width: 26px; height: 26px; stroke: currentColor; fill: currentColor; stroke-linecap: round; stroke-linejoin: round; }
 /* explorer area icon */
-
+.explorer-area-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.explorer-area-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: currentColor; stroke-linecap: round; stroke-linejoin: round; }
 /* trust card icon */
 .trust-card-icon-wrap { width: 52px; height: 52px; border-radius: 16px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: white; }
 .trust-card-icon-wrap svg { width: 28px; height: 28px; stroke: currentColor; fill: currentColor; stroke-linecap: round; stroke-linejoin: round; }
@@ -274,7 +275,12 @@ section { padding: 100px 60px; }
 .bar-fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width 1s 0.3s; }
 
 /* ─── ENGAGEMENT MODELS ─── */
-
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+.pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 32px; position: relative; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity 0.5s, transform 0.5s, box-shadow 0.2s; }
+.pricing-card.visible { opacity: 1; transform: translateY(0); }
+.pricing-card.featured { background: var(--accent); border-color: var(--accent); color: white; }
+.pricing-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.pricing-card.featured::before { background: white; }
 .pricing-tier { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
 .pricing-tier-normal { color: var(--accent); }
 .pricing-tier-featured { color: rgba(255,255,255,0.7); }
@@ -285,11 +291,17 @@ section { padding: 100px 60px; }
 .pricing-desc-featured { color: rgba(255,255,255,0.75); }
 .pricing-list { list-style: none; margin-bottom: 28px; }
 .pricing-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
-
+.pricing-card.featured .pricing-list li { border-bottom-color: rgba(255,255,255,0.15); }
 .pricing-list li:last-child { border-bottom: none; }
 .pricing-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
+.pricing-card.featured .pricing-list li::before { color: white; }
 .pricing-list li span { color: var(--muted); }
+.pricing-card.featured .pricing-list li span { color: rgba(255,255,255,0.8); }
+.btn-pricing { width: 100%; padding: 12px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-pricing-normal { background: var(--accent); color: white; }
+.btn-pricing-normal:hover { background: var(--accent-hover); }
+.btn-pricing-featured { background: white; color: var(--accent); }
+.btn-pricing-featured:hover { background: rgba(255,255,255,0.9); }
 
 /* ─── CTA ─── */
 .cta-section { background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 100px 60px; }
@@ -313,9 +325,11 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
 .footer-aid { font-family: 'JetBrains Mono', monospace; font-size: 10px; }
 
 /* ─── MODAL (multi-step) ─── */
-
- to { opacity: 1; transform: none; } }
-
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg); border-radius: var(--card-radius); max-width: 560px; width: 100%; box-shadow: var(--shadow-lg); border-top: 3px solid var(--accent); position: relative; animation: modalIn 0.3s ease-out; overflow: hidden; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: none; } }
+.modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--muted); display: flex; align-items: center; justify-content: center; z-index: 1; }
 .modal-step { display: none; padding: 40px; }
 .modal-step.active { display: block; }
 .modal-progress { display: flex; align-items: center; gap: 0; margin-bottom: 32px; }
@@ -397,11 +411,58 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
 .success-keri { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted2); background: var(--surface); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); text-align: center; margin-top: 16px; }
 
 /* ─── SERVICE EXPLORER DRAWER ─── */
+.explorer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); z-index: 999; display: none; }
+.explorer-overlay.open { display: block; }
+.explorer-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(560px, 100vw); background: var(--bg); z-index: 1000; overflow-y: auto; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); box-shadow: -4px 0 40px rgba(0,0,0,0.2); }
+.explorer-drawer.open { transform: translateX(0); }
+.explorer-header { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; z-index: 1; backdrop-filter: blur(12px); }
+.explorer-header h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+.explorer-close { width: 32px; height: 32px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 16px; }
+.explorer-body { padding: 28px; }
+.explorer-intro { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 28px; }
+.explorer-area { margin-bottom: 32px; }
+.explorer-area-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+.explorer-area-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent); }
+.explorer-area-title { font-size: 14px; font-weight: 800; color: var(--text); }
+.explorer-area-sub { font-size: 12px; color: var(--muted); margin-left: auto; }
+.explorer-services { display: flex; flex-direction: column; gap: 10px; }
+.explorer-service { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; align-items: flex-start; gap: 14px; }
+.explorer-service-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 5px; flex-shrink: 0; }
+.explorer-service-content {}
+.explorer-service-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.explorer-service-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.explorer-service-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.explorer-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface2); color: var(--muted); }
+.explorer-tag.tag-live { background: var(--green-dim); color: var(--green); }
+.explorer-tag.tag-beta { background: var(--amber-dim); color: var(--amber); }
+.explorer-cta { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 20px 28px; }
 
 /* ─── CHAT ─── */
-
- to { opacity: 1; transform: none; } }
-
+.chat-fab { position: fixed; bottom: 28px; right: 28px; z-index: 200; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(200,68,47,0.4); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, box-shadow 0.2s; }
+.chat-fab:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(200,68,47,0.5); }
+.chat-fab svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chat-panel { position: fixed; bottom: 96px; right: 28px; z-index: 200; width: 360px; background: var(--bg); border-radius: var(--card-radius); box-shadow: var(--shadow-lg); border: 1px solid var(--border); border-top: 3px solid var(--accent); display: none; flex-direction: column; overflow: hidden; }
+.chat-panel.open { display: flex; animation: chatIn 0.25s ease-out; }
+@keyframes chatIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
+.chat-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+.chat-avatar svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chat-header-info h4 { font-size: 14px; font-weight: 800; }
+.chat-header-info span { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.chat-online { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+.chat-close { margin-left: auto; background: none; border: none; font-size: 16px; color: var(--muted); cursor: pointer; }
+.chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 200px; max-height: 300px; overflow-y: auto; }
+.chat-msg { display: flex; gap: 8px; }
+.chat-bubble { background: var(--surface); border-radius: 14px 14px 14px 4px; padding: 10px 14px; font-size: 13px; color: var(--text); line-height: 1.5; max-width: 260px; }
+.chat-bubble.user { background: var(--accent); color: white; border-radius: 14px 14px 4px 14px; margin-left: auto; }
+.chat-quick { display: flex; gap: 6px; padding: 0 16px 12px; flex-wrap: wrap; }
+.quick-btn { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s; white-space: nowrap; }
+.quick-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.chat-input-row { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.chat-input { flex: 1; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--surface); font-family: 'Poppins', sans-serif; font-size: 13px; color: var(--text); outline: none; }
+.chat-input:focus { border-color: var(--accent); }
+.chat-send { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.chat-send svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -607,7 +668,8 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
     <a href="#services">Services</a>
     <a href="/framework/how-it-works/">How it Works</a>
     <a href="/framework/keri-identity/">Trust</a>
-    
+    <a href="#engage">Engage</a>
+    <a href="#engage" class="nav-cta">Start Engagement →</a>
   </div>
 </nav>
 
@@ -619,6 +681,10 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
     <div class="eyebrow"><span class="eyebrow-dot"></span> AI-Agent Consulting</div>
     <h1>Enterprise consulting<br>delivered by <em>AI agents</em>.<br>Governed by humans.</h1>
     <p class="hero-sub">Enterprise consulting depth. Agent-powered speed. Every engagement orchestrated across 8 Areas of Focus — with a human conductor accountable for outcomes.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openEngageModal()">Begin Engagement →</button>
+      <button class="btn-outline" onclick="openExplorer()">Explore Services</button>
+    </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">8</span><span class="stat-label">Areas of Focus</span></div>
       <div class="stat"><span class="stat-num">40+</span><span class="stat-label">AI Agent Specialists</span></div>
@@ -1401,6 +1467,67 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
 </section>
 
 <!-- ENGAGEMENT MODELS -->
+<section id="engage">
+  <div class="section-label">Engagement Models</div>
+  <h2 class="section-title">How we <em>work together</em></h2>
+  <p class="section-sub">Three ways to engage — from exploratory discovery to full embedded partnership.</p>
+  <div class="pricing-grid" id="pricingGrid">
+    <div class="pricing-card">
+      <div class="pricing-tier pricing-tier-normal">Discovery</div>
+      <div class="pricing-name pricing-name-normal">Area Sprint</div>
+      <div class="pricing-desc pricing-desc-normal">A focused 2-week engagement on a single Area of Focus. Ideal for exploring AI-agent consulting before a larger commitment.</div>
+      <ul class="pricing-list">
+        <li><span>1 Area of Focus</span></li>
+        <li><span>1 human conductor assigned</span></li>
+        <li><span>Up to 3 AI agent specialists</span></li>
+        <li><span>KERI-anchored deliverables</span></li>
+        <li><span>2-week turnaround</span></li>
+      </ul>
+      <button class="btn-pricing btn-pricing-normal" onclick="openEngageModal('Area Sprint')">Request Sprint →</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tier pricing-tier-featured">Recommended</div>
+      <div class="pricing-name pricing-name-featured">Engagement Program</div>
+      <div class="pricing-desc pricing-desc-featured">A 3-month multi-area engagement. Full 8 Areas of Focus assessment plus deep work in 3 nominated areas. Most clients start here.</div>
+      <ul class="pricing-list">
+        <li><span>Full 8-area assessment</span></li>
+        <li><span>Deep work in 3 nominated areas</span></li>
+        <li><span>Dedicated conductor + agent squad</span></li>
+        <li><span>Weekly conductor review sessions</span></li>
+        <li><span>Living deliverables (continuously updated)</span></li>
+        <li><span>Full KERI audit trail export</span></li>
+      </ul>
+      <button class="btn-pricing btn-pricing-featured" onclick="openEngageModal('Engagement Program')">Start Program →</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-tier pricing-tier-normal">Partnership</div>
+      <div class="pricing-name pricing-name-normal">Embedded Partner</div>
+      <div class="pricing-desc pricing-desc-normal">An ongoing retained relationship. selfdriven conductors and agents embedded in your organisation as a continuous capability.</div>
+      <ul class="pricing-list">
+        <li><span>All 8 Areas of Focus on retainer</span></li>
+        <li><span>Named conductor team</span></li>
+        <li><span>Unlimited agent deployments</span></li>
+        <li><span>Monthly strategy sessions</span></li>
+        <li><span>Priority access to new agent capabilities</span></li>
+        <li><span>Custom ACDC credential schema</span></li>
+      </ul>
+      <button class="btn-pricing btn-pricing-normal" onclick="openEngageModal('Embedded Partner')">Explore Partnership →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <div class="section-label" style="text-align:center">Ready to start?</div>
+    <h2>Your engagement can start<br>in <em>72 hours</em></h2>
+    <p>Tell us the challenge. We'll scope it against the Areas of Focus, assign a conductor, and have agents deployed before traditional consulting has even billed for the discovery call.</p>
+    <div class="cta-actions">
+      <button class="btn-primary" onclick="openEngageModal()">Begin Engagement →</button>
+      <button class="btn-outline" onclick="openExplorer()">Explore Services</button>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -1442,7 +1569,14 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
 </div>
 
 <!-- ─── MULTI-STEP ENGAGEMENT MODAL ─── -->
-<div class="modal-prog-label active">About You</div></div>
+<div class="modal-overlay" id="engageModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- Step 1: About You -->
+    <div class="modal-step active" id="mstep1">
+      <div class="modal-progress">
+        <div class="modal-prog-step"><div class="modal-prog-dot active" id="dot1">1</div><div class="modal-prog-label active">About You</div></div>
         <div class="modal-prog-line"></div>
         <div class="modal-prog-step"><div class="modal-prog-dot" id="dot2">2</div><div class="modal-prog-label">Challenge</div></div>
         <div class="modal-prog-line"></div>
@@ -1456,6 +1590,8 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
         <div class="promise-item"><svg viewBox="0 0 24 24" width="14" height="14"><use href="#ico-user"/></svg> Named conductor assigned</div>
         <div class="promise-item"><svg viewBox="0 0 24 24" width="14" height="14"><use href="#ico-accountability"/></svg> KERI-anchored brief</div>
       </div>
+
+      <div class="section-label">Begin Engagement</div>
       <h3>Tell us about your organisation</h3>
       <p class="modal-subtitle">No sales call required. Submit your brief and a human conductor will respond within 24 hours with a tailored scoping proposal — not a brochure.</p>
       <div class="form-row">
@@ -1758,13 +1894,20 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
           <div class="success-step"><div class="ss-num">2</div><div class="ss-text"><strong>Scoping proposal</strong> — a structured brief mapping your challenge to specific services, agents, and a delivery timeline</div></div>
           <div class="success-step"><div class="ss-num">3</div><div class="ss-text"><strong>Kick-off call</strong> — optional 30-min session with your conductor to align on scope before agents are deployed</div></div>
         </div>
-        
+        <button class="btn-primary" onclick="closeModal()" style="margin-top:20px;width:100%">Close</button>
         <div class="success-keri" id="successKeri">KEL · inception · sn:0 · AID: generating…</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ─── EXPLORE SERVICES DRAWER ─── -->
+<div class="explorer-overlay" id="explorerOverlay" onclick="closeExplorer()"></div>
+<div class="explorer-drawer" id="explorerDrawer">
+  <div class="explorer-header">
+    <h3>Explore Services</h3>
+    <button class="explorer-close" onclick="closeExplorer()">✕</button>
+  </div>
   <div class="explorer-body">
     <p class="explorer-intro">Every service maps to one of the 8 Areas of Focus and is delivered by a human conductor orchestrating purpose-built AI agents. Select an area to see what we deliver — and engage directly from here.</p>
 
@@ -1886,14 +2029,44 @@ footer { background: var(--text); padding: 60px; display: grid; grid-template-co
     </div>
 
   </div>
-  
+  <div class="explorer-cta">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5">All services are delivered by a named human conductor with purpose-built AI agents. Every deliverable is KERI-anchored and audit-ready.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn-primary" style="flex:1" onclick="closeExplorer(); openEngageModal()">Begin an Engagement →</button>
+      <button class="btn-outline" style="flex:0 0 auto;padding:11px 16px" onclick="toggleChat();closeExplorer()">Ask a question</button>
+    </div>
   </div>
 </div>
 
+<!-- CHAT -->
+<button class="chat-fab" onclick="toggleChat()" aria-label="Chat with an agent">
+  <svg viewBox="0 0 24 24"><use href="#ico-message"/></svg>
+</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <div class="chat-avatar"><svg viewBox="0 0 24 24"><use href="#ico-user"/></svg></div>
+    <div class="chat-header-info">
+      <h4>selfdriven Agent</h4>
+      <span><span class="chat-online"></span> Consulting intake · Area 01</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg">
+      <div class="chat-bubble">Hello. I'm the consulting intake agent. Which Area of Focus are you most interested in exploring today?</div>
+    </div>
+  </div>
+  <div class="chat-quick" id="chatQuick">
+    <button class="quick-btn" onclick="quickChat('Strategy &amp; Direction')">Strategy</button>
+    <button class="quick-btn" onclick="quickChat('Risk &amp; Compliance')">Risk</button>
+    <button class="quick-btn" onclick="quickChat('Technology &amp; Identity')">Technology</button>
+    <button class="quick-btn" onclick="quickChat('People &amp; Culture')">People</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything…" onkeypress="if(event.key==='Enter') sendChat()">
+    <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24"><use href="#ico-send"/></svg></button>
+  </div>
 </div>
-  </div>
-  </div>
-  </div>
 
 <script>
 // Nav scroll
@@ -1910,7 +2083,14 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.area-card, 
+document.querySelectorAll('.area-card, .pricing-card, .step').forEach(el => observer.observe(el));
+
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.width);
+      barObserver.unobserve(e.target);
+    }
   });
 }, { threshold: 0.3 });
 const cb = document.getElementById('conductorBars');
@@ -1936,16 +2116,126 @@ function switchTab(btn, panelId) {
 }
 
 // ─── MULTI-STEP MODAL ───
+let selectedAreas = [];
+let presetModel = '';
 
+function openEngageModal(model) {
+  if (model) presetModel = model;
+  document.getElementById('engageModal').classList.add('open');
+  goStep(1);
+}
+function closeModal() {
+  document.getElementById('engageModal').classList.remove('open');
+  selectedAreas = [];
+  presetModel = '';
+  document.querySelectorAll('.area-pick-btn').forEach(b => b.classList.remove('selected'));
+}
+document.getElementById('engageModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('engageModal')) closeModal();
 });
 
-// ─── EXPLORER DRAWER ───
+function goStep(n) {
+  document.querySelectorAll('.modal-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('mstep' + n).classList.add('active');
+  if (n === 3 && presetModel) {
+    const sel = document.getElementById('f-model');
+    if (sel) {
+      Array.from(sel.options).forEach(o => { if (o.text.toLowerCase().includes(presetModel.toLowerCase())) sel.value = o.value; });
+    }
+  }
+  if (n === 4) populateSummary();
+}
 
+function setChallenge(text) {
+  const ta = document.getElementById('f-challenge');
+  if (ta) { ta.value = text; ta.focus(); }
+}
+
+function toggleArea2(btn, name) {
+  if (btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    selectedAreas = selectedAreas.filter(a => a !== name);
+  } else {
+    if (selectedAreas.length >= 3) return;
+    btn.classList.add('selected');
+    selectedAreas.push(name);
+  }
+  const counter = document.getElementById('areaCounter');
+  if (counter) counter.textContent = selectedAreas.length + ' of 3 areas selected';
+}
+
+function populateSummary() {
+  const fn = document.getElementById('f-firstname').value || '—';
+  const ln = document.getElementById('f-lastname').value || '';
+  const email = document.getElementById('f-email').value;
+  document.getElementById('sum-name').textContent = (fn + ' ' + ln).trim() + (email ? ' · ' + email : '');
+  document.getElementById('sum-org').textContent = document.getElementById('f-org').value || '—';
+  const ind = document.getElementById('f-industry');
+  document.getElementById('sum-industry').textContent = (ind && ind.value) ? ind.value : '—';
+  const ch = document.getElementById('f-challenge').value;
+  document.getElementById('sum-challenge').textContent = ch ? (ch.length > 100 ? ch.substring(0,100)+'…' : ch) : '—';
+  const out = document.getElementById('f-outcome');
+  document.getElementById('sum-outcome').textContent = (out && out.value) ? out.value : '—';
+  document.getElementById('sum-areas').textContent = selectedAreas.length ? selectedAreas.join(', ') : '—';
+  const mdl = document.getElementById('f-model');
+  document.getElementById('sum-model').textContent = (mdl && mdl.value) ? mdl.value : '—';
+  document.getElementById('sum-urgency').textContent = document.getElementById('f-urgency').value || '—';
+  const bud = document.getElementById('f-budget');
+  if (document.getElementById('sum-budget')) document.getElementById('sum-budget').textContent = (bud && bud.value) ? bud.value : '—';
+}
+
+function submitEngagement() {
+  goStep(5);
+  const sn = Date.now();
+  document.getElementById('successKeri').textContent = `KEL · inception · sn:${sn} · AID: EKE4g_0hDGBOqDLKzNBT3kFOPxoP7wXkqt`;
+}
+
+// ─── EXPLORER DRAWER ───
+function openExplorer() {
+  document.getElementById('explorerOverlay').classList.add('open');
+  document.getElementById('explorerDrawer').classList.add('open');
+}
+function closeExplorer() {
+  document.getElementById('explorerOverlay').classList.remove('open');
+  document.getElementById('explorerDrawer').classList.remove('open');
+}
+function toggleExArea(header) {
+  const services = header.nextElementSibling;
+  const isOpen = services.style.display === 'flex' || services.style.display === '';
+  document.querySelectorAll('.explorer-services').forEach(s => s.style.display = 'none');
+  if (!isOpen || services.style.display === '') services.style.display = 'flex';
+}
 // Start with first area open
- });
+document.querySelectorAll('.explorer-services').forEach((s, i) => { s.style.display = i === 0 ? 'flex' : 'none'; });
 
 // ─── CHAT ───
-
+function toggleChat() {
+  document.getElementById('chatPanel').classList.toggle('open');
+}
+const chatResponses = ["Thanks — that maps to one of our active areas. Our intake conductor can begin a scoping proposal within 24 hours. Would you like to open a formal brief?", "Great question. Our agents can begin an assessment within 72 hours, with a conductor assigned on day one. Shall I open an engagement request?", "That falls primarily under Area 04 — Protocols. Our KERI/ACDC specialist agents handle this. Want me to outline the typical engagement?", "I can route this to the right conductor. To proceed, I'll need a bit more context — can you share the core challenge you're trying to solve?"];
+let chatIdx = 0;
+function quickChat(topic) {
+  addUserMsg(topic);
+  document.getElementById('chatQuick').style.display = 'none';
+  setTimeout(() => addBotMsg("Good choice — " + topic + " is an active service area. Our conductors have strong recent engagement experience here. Would you like me to open a brief?"), 700);
+}
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  if (!input.value.trim()) return;
+  addUserMsg(input.value); input.value = '';
+  setTimeout(() => addBotMsg(chatResponses[chatIdx % chatResponses.length]), 800);
+  chatIdx++;
+}
+function addUserMsg(text) {
+  const m = document.getElementById('chatMessages');
+  m.innerHTML += `<div class="chat-msg"><div class="chat-bubble user">${text}</div></div>`;
+  m.scrollTop = m.scrollHeight;
+}
+function addBotMsg(text) {
+  const m = document.getElementById('chatMessages');
+  m.innerHTML += `<div class="chat-msg"><div class="chat-bubble">${text}</div></div>`;
+  m.scrollTop = m.scrollHeight;
+}
 </script>
 </body>
 </html>
