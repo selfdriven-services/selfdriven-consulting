@@ -1415,7 +1415,7 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
-// Intersection observers
+// Intersection observer — fade in area-cards and steps
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {
@@ -1424,13 +1424,21 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0 });
-document.querySelectorAll('.area-card, 
+document.querySelectorAll('.area-card, .step').forEach(el => observer.observe(el));
+
+// Conductor bar observer
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(b => b.classList.add('animate'));
+      barObserver.unobserve(e.target);
+    }
   });
 }, { threshold: 0.3 });
 const cb = document.getElementById('conductorBars');
 if (cb) barObserver.observe(cb);
 
-// Area expand
+// Area expand (View services toggle)
 function toggleArea(btn) {
   const expand = btn.nextElementSibling;
   const isOpen = expand.classList.contains('open');
@@ -1448,18 +1456,6 @@ function switchTab(btn, panelId) {
   btn.classList.add('active');
   document.getElementById('panel-' + panelId).classList.add('active');
 }
-
-// ─── MULTI-STEP MODAL ───
-
-});
-
-// ─── EXPLORER DRAWER ───
-
-// Start with first area open
- });
-
-// ─── CHAT ───
-
 </script>
 </body>
 </html>
